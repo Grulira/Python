@@ -1,0 +1,10 @@
+import random
+result = str(); 
+calculator = round(random.random() * 100);
+if(calculator >= 90):
+  result = "Super Difficult, if you survive is a win";  
+elif(calculator >= 50):
+  result = "Difficult, stay tuned "
+else:
+  result = "Easy, have sure that today you be productive";   
+print("Today is gonna be {}".format(result), end="!");
