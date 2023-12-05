@@ -1,0 +1,42 @@
+import random
+from PySimpleGUI import PySimpleGUI as sg
+
+
+def TheAnswer():
+  calculator = round(random.random() * 100)
+  if(calculator >= 90):
+    result = "Super Difficult, if you survive is a win." 
+  elif(calculator >= 50):
+    result = "Difficult, stay tuned and steady."
+  else:
+    result = "Easy, have sure that today you be productive."
+  return result
+
+
+def FirstPage():
+  sg.theme('DarkBlack')
+  layout = [
+    [sg.Text('How will be this day?')],
+    [sg.Button('Next')]
+  ]
+  return sg.Window(':|', layout=layout, finalize=True)
+
+
+def SecondPage():
+  sg.theme('DarkBlack')
+  layout = [
+    [sg.Text("Today is gonna be {}".format(TheAnswer()))]
+  ]
+  return sg.Window('Answer', layout=layout, finalize=True)
+
+
+win1, win2 = FirstPage(), None  
+while True: 
+  wind, event, values = sg.read_all_windows()
+  if wind == win1 and event == sg.WIN_CLOSED:
+    break 
+  if wind == win1 and event == 'Next':
+    win2 = SecondPage()
+    win1.hide()
+  if wind == win2 and event == sg.WIN_CLOSED:
+    break 
