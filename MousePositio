@@ -1,0 +1,8 @@
+import pyautogui
+import time 
+
+
+while True: 
+    X, Y = pyautogui.position()
+    print(X, Y)
+    time.sleep(5)
