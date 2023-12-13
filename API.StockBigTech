@@ -1,0 +1,62 @@
+from PySimpleGUI import PySimpleGUI as sg
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+
+
+def Search():
+  browser = webdriver.Chrome()
+  browser.get('https://www.google.com/webhp?hl=pt-BR&ictx=2&sa=X&ved=0ahUKEwiarOnA5v2CAxWOqpUCHcuHBbIQPQgJ')
+  browser.maximize_window()
+  certting = browser.find_element(By.XPATH, '//*[@id="APjFqb"]')
+  certting.send_keys('AAPL')
+  certting.send_keys(Keys.ENTER)
+  AAPL = browser.find_element(By.XPATH, '//*[@id="knowledge-finance-wholepage__entity-summary"]/div[3]/g-card-section/div/g-card-section/div[2]/div[1]/span[1]/span/span[1]').text 
+  print(f"US{AAPL}")
+  browser.get('https://www.google.com/webhp?hl=pt-BR&ictx=2&sa=X&ved=0ahUKEwiarOnA5v2CAxWOqpUCHcuHBbIQPQgJ')
+  certtin = browser.find_element(By.XPATH, '//*[@id="APjFqb"]')
+  certtin.send_keys("TSLA")
+  certtin.send_keys(Keys.ENTER)
+  TSLA = browser.find_element(By.XPATH, '//*[@id="knowledge-finance-wholepage__entity-summary"]/div[3]/g-card-section/div/g-card-section/div[2]/div[1]/span[1]/span/span[1]').text 
+  print(f"US{TSLA}")
+  browser.get('https://www.google.com/webhp?hl=pt-BR&ictx=2&sa=X&ved=0ahUKEwiarOnA5v2CAxWOqpUCHcuHBbIQPQgJ')
+  certtin = browser.find_element(By.XPATH, '//*[@id="APjFqb"]')
+  certtin.send_keys("AMZN")
+  certtin.send_keys(Keys.ENTER)
+  AMZN = browser.find_element(By.XPATH, '//*[@id="knowledge-finance-wholepage__entity-summary"]/div[3]/g-card-section/div/g-card-section/div[2]/div[1]/span[1]/span/span[1]').text 
+  print(f"US{AMZN}")
+  browser.quit()
+  return AAPL, TSLA, AMZN
+
+
+def FirstPage():
+  sg.theme('Default')
+  layout = [
+  [sg.Text('Some BigTech:')],
+  [sg.Button('Next')],
+  ]
+  return sg.Window('Beginning', layout=layout, finalize=True)
+
+
+def SecondPage(): 
+  sg.theme('Default')
+  AAPL, TSLA, AMZN = Search()
+  layout = [
+  [sg.Text("Some stock of Bigtech:")], 
+  [sg.Text("US${}".format(AAPL))],
+  [sg.Text("US${}".format(TSLA))],
+  [sg.Text("US${}".format(AMZN))]
+  ]
+  return sg.Window('Answer', layout=layout, finalize=True)
+
+
+win1, win2 = FirstPage(), None  
+while True: 
+  wind, event, values = sg.read_all_windows()
+  if wind == win1 and event == sg.WIN_CLOSED:
+    break 
+  if wind == win1 and event == 'Next':
+    win2 = SecondPage()
+    win1.hide()
+  if wind == win2 and event == sg.WIN_CLOSED:
+    break 
