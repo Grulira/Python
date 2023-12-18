@@ -1,0 +1,54 @@
+from PySimpleGUI import PySimpleGUI as sg
+import requests
+from bs4 import BeautifulSoup
+
+
+def Search():
+  url = "https://www.google.com/finance/quote/TSLA:NASDAQ"
+  response = requests.get(url)
+  html = response.content
+  soup = BeautifulSoup(html, "html.parser")
+  TSLA = soup.find_all("div", class_="YMlKec fxKbKc")
+  url = "https://www.google.com/finance/quote/AMZN:NASDAQ"
+  html = response.content
+  soup = BeautifulSoup(html, "html.parser")
+  AMZN = soup.find_all("div", class_="YMlKec fxKbKc")
+  url = "https://www.google.com/finance/quote/AAPL:NASDAQ"
+  response = requests.get(url)
+  html = response.content
+  soup = BeautifulSoup(html, "html.parser")
+  AAPL = soup.find_all("div", class_="YMlKec fxKbKc")
+  return AAPL[0].text, TSLA[0].text, AMZN[0].text
+
+
+def FirstPage():
+  sg.theme('Default')
+  layout = [
+  [sg.Text('Some BigTech:')],
+  [sg.Button('Next')],
+  ]
+  return sg.Window('Beginning', layout=layout, finalize=True)
+
+
+def SecondPage(): 
+  sg.theme('Default')
+  AAPL, TSLA, AMZN = Search()
+  layout = [
+  [sg.Text("Some stock of Bigtech:")], 
+  [sg.Text("Apple: US{}".format(AAPL))],
+  [sg.Text("Tesla: US{}".format(TSLA))],
+  [sg.Text("Amazon: US{}".format(AMZN))]
+  ]
+  return sg.Window('Answer', layout=layout, finalize=True)
+
+
+win1, win2 = FirstPage(), None  
+while True: 
+  wind, event, values = sg.read_all_windows()
+  if wind == win1 and event == sg.WIN_CLOSED:
+    break 
+  if wind == win1 and event == 'Next':
+    win2 = SecondPage()
+    win1.hide()
+  if wind == win2 and event == sg.WIN_CLOSED:
+    break 
