@@ -10,7 +10,7 @@ def Search():
   soup = BeautifulSoup(html, "html.parser")
   TSLA = soup.find_all("div", class_="YMlKec fxKbKc")
   url = "https://www.google.com/finance/quote/AMZN:NASDAQ"
-  html = response.content
+  html = response.content(url)
   soup = BeautifulSoup(html, "html.parser")
   AMZN = soup.find_all("div", class_="YMlKec fxKbKc")
   url = "https://www.google.com/finance/quote/AAPL:NASDAQ"
